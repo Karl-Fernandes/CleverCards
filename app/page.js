@@ -1,95 +1,72 @@
 import Image from "next/image";
-import styles from "./page.module.css";
+import Head from "next/head";
+import getStripe from "@/utils/get-stripe";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Container, Typography, AppBar, Toolbar, Button, Box } from "@mui/material";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <Head>
+        <title>CleverCards</title>
+        <meta name="description" content="Create flashcards from your text" />
+      </Head>
+
+      <AppBar
+        position="static"
+        sx={{
+          background: "linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)",
+          color: "#000000",
+        }}
+      >
+        <Toolbar sx={{ justifyContent: "center" }}> {/* Center the toolbar contents */}
+          <Typography variant="h6" sx={{ flexGrow: 1}}>
+            CleverCards
+          </Typography>
+          <Box sx={{ ml: "auto" }}> {/* Push buttons to the right side */}
+            <SignedOut>
+              <Button sx={{ color: "#000000", marginRight: "16px" }}>Login</Button>
+              <Button sx={{ color: "#000000", marginRight: "16px"}}>Sign Up</Button>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh", // Adjust the height to center the content vertically
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h2" sx={{ mb: 2 }}>
+            Welcome to CleverCards
+          </Typography>
+          <Typography sx={{ mb: 3 }}>
+            The easiest way to make flashcards from your prompts
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{
+              background: "linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)",
+              color: "#ffffff",
+              transition: "all 1s ease", // Smooth transition for all changes
+              "&:hover": {
+                transform: "scale(1.05)", // Slightly increase the size
+              },
+            }}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+            Get Started
+          </Button>
+        </Box>
+      </Container>
+    </>
   );
 }
