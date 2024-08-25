@@ -106,7 +106,7 @@ export default function Home() {
         <Typography
           variant="h6"
           textAlign="center"
-          gutterBottom
+          
           sx={{
             fontSize: "2rem",
             fontWeight: "bold",
@@ -135,7 +135,7 @@ export default function Home() {
                 }}
               >
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div" textAlign="center"
+                  <Typography  variant="h6" component="div" textAlign="center"
                     sx={{
                       fontWeight: "bold",
                       background: "#5eead4",
@@ -174,7 +174,7 @@ export default function Home() {
               }}
               >
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div" textAlign="center"
+                  <Typography  variant="h6" component="div" textAlign="center"
                     sx={{
                       fontWeight: "bold",
                       background: "#5eead4",
@@ -212,7 +212,7 @@ export default function Home() {
                 }}
               >
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div" textAlign="center"
+                  <Typography  variant="h6" component="div" textAlign="center"
                     sx={{
                     fontWeight: "bold",
                     background: "#5eead4",
@@ -240,7 +240,7 @@ export default function Home() {
         <Box sx={{mt: 5, textAlign:"center"}}>
           <Typography variant="h6"
           textAlign="center"
-          gutterBottom
+          
           sx={{
             fontSize: "2.2rem",
             fontWeight: "bold", // Equivalent to "font-bold"
@@ -280,7 +280,7 @@ export default function Home() {
             >
               <CardContent>
                 <Typography
-                  gutterBottom
+                  
                   variant="h6"
                   component="div"
                   textAlign="center"
@@ -311,7 +311,7 @@ export default function Home() {
                   <CheckIcon sx={{ mr: 1, color: 'green' }} />
                   Access to basic flashcards
                 </Typography>
-                <Button gutterBottom variant="contained"
+                <Button  variant="contained"
                   sx={{
                     background: "#ffffff",
                     width: "100%",
@@ -351,7 +351,7 @@ export default function Home() {
             >
               <CardContent>
                 <Typography
-                  gutterBottom
+                  
                   variant="h6"
                   component="div"
                   textAlign="center"
@@ -382,7 +382,7 @@ export default function Home() {
                   <CheckIcon sx={{ mr: 1, color: 'green' }} />
                   Unlimited Storage
                 </Typography>
-                <Button gutterBottom variant="contained"
+                <Button  variant="contained"
                   sx={{
                     background: "#ffffff",
                     width: "100%",
@@ -422,7 +422,7 @@ export default function Home() {
             >
               <CardContent>
                 <Typography
-                  gutterBottom
+                  
                   variant="h6"
                   component="div"
                   textAlign="center"
@@ -453,7 +453,7 @@ export default function Home() {
                   <CheckIcon sx={{ mr: 1, color: 'green' }} />
                   Dedicated Account Manager
                 </Typography>
-                <Button gutterBottom variant="contained"
+                <Button  variant="contained"
                   sx={{
                     background: "#ffffff",
                     width: "100%",

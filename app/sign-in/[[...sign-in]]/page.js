@@ -58,7 +58,7 @@ export default function SignUpPage() {
         <Typography 
             variant="h7"
             textAlign="center"
-            gutterBottom
+            $
             sx={{
             fontSize: "1.8rem",
             fontWeight: "bold",

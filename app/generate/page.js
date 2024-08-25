@@ -1,7 +1,4 @@
 'use client';
-
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import {
   Container,
   TextField,
@@ -9,25 +6,30 @@ import {
   Typography,
   Box,
   Grid,
-  Dialog,
-  DialogContent,
+  Card,
   CardContent,
-  Paper,
   CardActionArea,
+  Dialog,
+  DialogActions,
+  DialogContent,
   DialogContentText,
   DialogTitle,
-  DialogActions
-} from '@mui/material';
-import { doc, collection, setDoc, getDoc, writeBatch } from 'firebase/firestore';
-import { db } from '@/firebase'; // Assuming you have Firebase initialized in this file
+  Paper
+} from '@mui/material'
+import { db } from '@/firebase'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useUser } from '@clerk/nextjs'
+import { collection, doc, getDoc, writeBatch, setDoc } from 'firebase/firestore'
+
 
 export default function Generate() {
-  const [text, setText] = useState('');
+  const {isLoaded, isSignedIn, user} = useUser()
   const [flashcards, setFlashcards] = useState([]);
+  const [flipped, setFlipped] = useState([]);
+  const [text, setText] = useState('');
   const [name, setName] = useState('');
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState(null); // Ensure this is set with user info from authentication
-  const [flipped, setFlipped] = useState([]);
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -47,44 +49,45 @@ export default function Generate() {
   };
 
   const handleOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   const saveFlashcards = async () => {
     if (!name) {
-      alert('Please enter a name');
-      return;
+      alert('Please enter a name')
+      return
     }
 
     const batch = writeBatch(db);
-    const userDocRef = doc(db, 'users', user?.id); // Ensure user ID is set correctly
-    const docSnap = await getDoc(userDocRef);
+    const userDocRef = doc(collection(db, 'users'), user.id)
+    const docSnap = await getDoc(userDocRef)
 
-    let userFlashcards = [];
     if (docSnap.exists()) {
-      userFlashcards = docSnap.data().flashcards || [];
-      if (userFlashcards.find((f) => f.name === name)) {
+      const collections = docSnap.data().flashcards || [];
+      if (collections.find((f) => f.name === name)) {
         alert('Flashcard collection with that name already exists');
-        return;
+        return
+      } else {
+        collections.push({name})
+        batch.set(userDocRef, {flashcards: collections}, {merge: true})
       }
+    } else {
+      batch.set(userDocRef, {flashcards: [{name}]})
     }
-    
-    userFlashcards.push({ name });
-    batch.set(userDocRef, { flashcards: userFlashcards }, { merge: true });
 
     const colRef = collection(userDocRef, name);
     flashcards.forEach((flashcard) => {
-      const cardDocRef = doc(colRef);
-      batch.set(cardDocRef, flashcard);
-    });
+      const cardDocRef = doc(colRef)
+      batch.set(cardDocRef, flashcard)
+    })
 
     await batch.commit();
     handleClose();
-    router.push('/flashcards');
+    router.push('/flashcards')
   };
 
   return (
@@ -129,6 +132,7 @@ export default function Generate() {
           <Grid container spacing={3}>
             {flashcards.map((flashcard, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card>
                 <CardActionArea onClick={() => handleCardClick(index)}>
                   <CardContent>
                     <Box
@@ -176,6 +180,7 @@ export default function Generate() {
                     </Box>
                   </CardContent>
                 </CardActionArea>
+                </Card>
               </Grid>
             ))}
           </Grid>
