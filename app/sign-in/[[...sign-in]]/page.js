@@ -25,7 +25,7 @@ export default function SignUpPage() {
               backgroundColor: "#000000",
             }}
           >
-            <Link sx={{ color: "#ffffff", textDecoration: "none" }} href="/sign-in" passHref>
+            <Link sx={{ color: "#ffffff", textDecoration: "none" }} href="/sign-in">
               Login
             </Link>
           </Button>
@@ -38,7 +38,7 @@ export default function SignUpPage() {
               backgroundColor: "#000000",
             }}
           >
-            <Link sx={{ color: "#ffffff", textDecoration: "none" }} href="/sign-up" passHref>
+            <Link sx={{ color: "#ffffff", textDecoration: "none" }} href="/sign-up">
               Sign Up
             </Link>
           </Button>
@@ -58,7 +58,6 @@ export default function SignUpPage() {
         <Typography 
             variant="h7"
             textAlign="center"
-            $
             sx={{
             fontSize: "1.8rem",
             fontWeight: "bold",
