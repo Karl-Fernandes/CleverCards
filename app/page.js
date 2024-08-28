@@ -89,29 +89,25 @@ export default function Home() {
         >
           The easiest way to make flashcards from your prompts
         </Typography>
-        <Link
-          to="features"
-          smooth={true}
-          duration={1000}
-          offset={20} // Adjust offset to ensure perfect alignment
-        >
-          <Button
-            variant="contained"
-            sx={{
-              background: "linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)",
-              borderRadius: "50px",
-              padding: "10px 30px",
-              color: "#ffffff",
-              fontWeight: "bold",
-              transition: "all 1s ease",
-              "&:hover": {
-                transform: "scale(1.05)", // Slightly increase the size
-              },
-            }}
-          >
-            Get Started
-          </Button>
-        </Link>
+          <a href="/generate">
+            <Button
+              variant="contained"
+              sx={{
+                background: "linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)",
+                borderRadius: "50px",
+                padding: "10px 30px",
+                color: "#ffffff",
+                fontWeight: "bold",
+                transition: "all 1s ease",
+                "&:hover": {
+                  transform: "scale(1.05)", // Slightly increase the size
+                },
+              }}
+            >
+              Get Started
+            </Button>
+          </a>
+
       </Box>
 
       <Box
@@ -329,23 +325,25 @@ export default function Home() {
                   <CheckIcon sx={{ mr: 1, color: 'green' }} />
                   Access to basic flashcards
                 </Typography>
-                <Button  variant="contained"
-                  sx={{
-                    background: "#ffffff",
-                    width: "100%",
-                    borderRadius: "50px",
-                    padding: "10px 30px",
-                    color: "#000000",
-                    fontWeight: "bold",
-                    transition: "all 1s ease",
-                    "&:hover": {
-                      transform: "scale(1.05)", // Slightly increase the size
-                      background: "#ffffff", // Maintain the same background color on hover
-                      color: "#000000", // Maintain the same text color on hover
-                    },
-                  }}>
-                Choose Plan
-              </Button>
+                <a href="/generate">
+                  <Button  variant="contained"
+                    sx={{
+                      background: "#ffffff",
+                      width: "100%",
+                      borderRadius: "50px",
+                      padding: "10px 30px",
+                      color: "#000000",
+                      fontWeight: "bold",
+                      transition: "all 1s ease",
+                      "&:hover": {
+                        transform: "scale(1.05)", // Slightly increase the size
+                        background: "#ffffff", // Maintain the same background color on hover
+                        color: "#000000", // Maintain the same text color on hover
+                      },
+                    }}>
+                  Get Started
+                </Button>
+              </a>
               </CardContent>
             </Card>
 
@@ -487,7 +485,7 @@ export default function Home() {
                       color: "#000000", // Maintain the same text color on hover
                     },
                   }}>
-                Choose Plan
+                Currently Unavailable
               </Button>
               </CardContent>
             </Card>
