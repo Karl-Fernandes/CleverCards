@@ -1,14 +1,32 @@
 "use client"; // This makes the entire file a client component
 
-import Image from "next/image";
 import Head from "next/head";
 import getStripe from "@/utils/get-stripe";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Container, Typography, AppBar, Toolbar, Button, Box, Card, CardContent, Grid} from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import { Link } from "react-scroll";
-
 export default function Home() {
+
+  const handleSubmit = async () => {
+    const checkoutSession = await fetch('/api/checkout_session', {
+      method: 'POST',
+      headers: {
+        "origin": "http://localhost:3000" // Corrected syntax
+      },
+    })
+
+    const checkoutSessionJson = await checkoutSession.json()
+    
+    const stripe = await getStripe()
+    const {error} = await stripe.redirectToCheckout({
+      sessionId: checkoutSessionJson.id,
+    })
+    if (error) {
+      console.warn(error.message)
+    }
+  }
+
   return (
     <div sx={{backgroundColor: "#ffffff"}}>
       <Head>
@@ -372,7 +390,7 @@ export default function Home() {
                     color: "#ffffff", // White text color
                   }}
                 >
-	                  $5 / Month
+	                  $10 / Month
                   </Typography>
                 <Typography sx={{ display: 'flex', alignItems: 'center', color: '#ffffff', mt: 2 }}>
                   <CheckIcon sx={{ mr: 1, color: 'green' }} />
@@ -396,7 +414,8 @@ export default function Home() {
                       background: "#ffffff", // Maintain the same background color on hover
                       color: "#000000", // Maintain the same text color on hover
                     },
-                  }}>
+                  }}
+                  onClick={handleSubmit}>
                 Choose Plan
               </Button>
               </CardContent>
