@@ -139,7 +139,7 @@ export default function Generate() {
               },
             }}
             InputProps={{
-              style: { backgroundColor: '#606060' }, // Black text on white background
+              style: { backgroundColor: '#606060' }, 
               sx: {
                 '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#606060', // Default outline color (white)
@@ -304,12 +304,6 @@ export default function Generate() {
             fullWidth
             value={name}
             onChange={(e) => setName(e.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                saveFlashcards();
-              }
-            }}
           />
         </DialogContent>
         <DialogActions>
