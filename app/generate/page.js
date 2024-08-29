@@ -31,16 +31,28 @@ export default function Generate() {
   const [name, setName] = useState('');
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async () => {
-    fetch('api/generate', {
-      method: 'POST',
-      body: text,
-    })
-      .then((res) => res.json())
-      .then((data) => setFlashcards(data));
+    if (!text.trim() || isLoading) return;
+    
+    setIsLoading(true); // Start loading
+  
+    try {
+      const response = await fetch('api/generate', {
+        method: 'POST',
+        body: text,
+      });
+  
+      const data = await response.json();
+      setFlashcards(data); // Set the flashcards from the response
+    } catch (error) {
+      console.error('Error generating flashcards:', error);
+    } finally {
+      setIsLoading(false); // Stop loading after the fetch is completed or fails
+    }
   };
-
+  
   const handleCardClick = (id) => {
     setFlipped((prev) => ({
       ...prev,
@@ -91,7 +103,7 @@ export default function Generate() {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" >
       <Box
         sx={{
           mt: 4,
@@ -99,29 +111,62 @@ export default function Generate() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          
         }}
       >
-        <Typography variant="h4" sx={{ color: '#ffffff' }}>
+        <Typography variant="h4" sx={{ color: '#ffffff', mb: 3}}>
           Generate Flashcards
         </Typography>
-        <Paper sx={{ p: 4, width: '100%' }}>
-          <TextField
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            label="Enter Text"
-            fullWidth
-            multiline
-            rows={4}
-            variant="outlined"
-            sx={{ mb: 2 }}
-          />
+        <Paper sx={{ p: 4, width: '95vw', backgroundColor: '#202c34' }}>
+        <TextField
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          label="Enter Text"
+          fullWidth
+          multiline
+          rows={4}
+          variant="outlined"
+          sx={{ 
+            mb: 2,
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '20px', // Adjust this value as needed
+            },
+          }}
+          InputProps={{
+            style: {backgroundColor: '#606060' }, // Black text on white background
+            sx: {
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#606060', // Default outline color (white)
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#cccccc', // Outline color when hovered (light gray)
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#ffffff', // Outline color when focused (red)
+              },
+            }
+          }}
+          InputLabelProps={{
+            style: { color: '#ffffff' } // Light gray label
+          }}
+        />
           <Button
             variant="contained"
-            color="primary"
+            sx={{
+              background: 'linear-gradient(to right, #093028, #237a57)',
+              borderRadius: "50px",
+              padding: "10px 30px",
+              transition: "all 0.5s ease",
+                "&:hover": {
+                  transform: "scale(1.02)", // Slightly increase the size
+                },
+            }}
             onClick={handleSubmit}
             fullWidth
+            disabled={isLoading}
+
           >
-            Submit
+          {isLoading ? 'Loading...' : 'Submit'}
           </Button>
         </Paper>
       </Box>

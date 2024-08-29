@@ -2,10 +2,13 @@
 
 import Head from "next/head";
 import getStripe from "@/utils/get-stripe";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Container, Typography, AppBar, Toolbar, Button, Box, Card, CardContent, Grid} from "@mui/material";
+import { Container, Typography, Button, Box, Card, CardContent, Grid, AppBar, IconButton} from "@mui/material";
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import InstagramIcon from '@mui/icons-material/Instagram'
 import CheckIcon from '@mui/icons-material/Check';
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll"; // Import react-scroll for smooth scrolling
+
 export default function Home() {
 
   const handleSubmit = async () => {
@@ -34,28 +37,7 @@ export default function Home() {
         <meta name="description" content="Create flashcards from your text" />
       </Head>
 
-      <AppBar
-        position="static"
-        sx={{
-          background: "linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)",
-          color: "#000000",
-        }}
-      >
-        <Toolbar sx={{ justifyContent: "center" }}>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            CleverCards
-          </Typography>
-          <Box sx={{ ml: "auto" }}>
-            <SignedOut>
-              <Button href='/sign-in' sx={{ color: "#000000", marginRight: "16px" }}>Login</Button>
-              <Button href='/sign-up' sx={{ color: "#000000", marginRight: "16px" }}>Sign Up</Button>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </Box>
-        </Toolbar>
-      </AppBar>
+      
 
       <Container maxWidth={false} >
       <Box
@@ -250,8 +232,9 @@ export default function Home() {
               </Card>
             </Grid>
           </Grid>
-        </Box>
-        <Box sx={{mt: 5, textAlign:"center"}}>
+      </Box>
+
+        <Box id='pricing' sx={{mt: 5, mb: 10, textAlign:"center"}}>
           <Typography variant="h6"
           textAlign="center"
           
@@ -493,6 +476,166 @@ export default function Home() {
           </Grid>
         </Box>
       </Container>
+
+
+      <AppBar
+      position="static"
+      sx={{
+        mt: 5,
+        backgroundColor: '#100c14',
+        color: "#ffffff",
+      }}
+    > 
+      <Grid container spacing={3} justifyContent="center" alignItems="flex-start">
+      <Grid item xs={12} sm={6} md={4} display="flex" justifyContent="center" >
+        <Box sx={{ ml: 5, mt: 4 }}>
+          <Typography
+            variant="body1"
+            textAlign="center"
+            sx={{
+              fontSize: "1.5rem",
+              background: "linear-gradient(0deg, #08AEEA 0%, #2AF598 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              mb: 2,
+            }}
+          >
+            About Us
+          </Typography>
+          <Typography sx={{color:'#BDBDBD'}}>
+            Revolutionizing learning through AI-powered flashcards.
+          </Typography>
+        </Box>
+      </Grid>
+
+      <Grid 
+        item 
+        xs={12} 
+        sm={6} 
+        md={4} 
+        display="flex" 
+        flexDirection="row"
+        justifyContent="center" 
+        alignItems="center"
+      >
+        <Box sx={{ ml: 5, mt: 4 }}>
+          <Typography
+            variant="body1"
+            textAlign="start"
+            sx={{
+              fontSize: "1.5rem",
+              background: "linear-gradient(0deg, #08AEEA 0%, #2AF598 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Quick Links
+          </Typography>
+          
+          <Box sx={{ml: 2}}> 
+            <ScrollLink
+              to="features"
+              smooth={true}
+              duration={1000}
+              offset={-20} // Adjust offset to ensure correct alignment
+            >
+              <Button
+                sx={{
+                  maxWidth: '100%',
+                  color: "#BDBDBD",
+                  textTransform: "none", // Ensures the text remains as you type it, not uppercase
+                  fontSize: "1.1rem",
+                  mb: '1px',
+                  "&:hover": {
+                    color: "#5eead4" // Set text color if needed to be visible on gradient background
+
+                  }
+                }}
+              >
+                Features
+              </Button>
+            </ScrollLink>
+          </Box>
+
+          <Box sx={{ml: 2.5, mt: '-10px'}}>
+            <ScrollLink
+              to="pricing"
+              smooth={true}
+              duration={1000}
+              offset={-100} // Adjust offset to ensure correct alignment
+            >
+              <Button
+                sx={{
+                  maxWidth: '100%',
+                  color: "#BDBDBD",
+                  textTransform: "none", // Ensures the text remains as you type it, not uppercase
+                  fontSize: "1.1rem",
+                  "&:hover": {
+                    color: "#5eead4" // Set text color if needed to be visible on gradient background
+
+                  }
+                }}
+              >
+                Pricing
+              </Button>
+            </ScrollLink>
+          </Box>
+
+        </Box>
+      </Grid>
+
+
+      <Grid item xs={12} sm={6} md={4} display="flex" justifyContent="center " sx={{ml: -1}}>
+        <Box sx={{ ml: 5, mt: 4 }}>
+          <Typography
+            variant="body1"
+            textAlign="center"
+            sx={{
+              fontSize: "1.5rem",
+              background: "linear-gradient(0deg, #08AEEA 0%, #2AF598 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              mb: 1,
+            }}
+          >
+            Connect
+          </Typography>        
+          <Box sx={{ display: 'flex', gap: 2, ml: 1}}> {/* Removed the negative margin */}
+            <IconButton 
+              component="a" 
+              href="https://github.com/karl-Fernandes" 
+              target="_blank" 
+              aria-label="GitHub"
+              sx={{ color: "#BDBDBD" }}
+            >
+              <GitHubIcon fontSize="large" />
+            </IconButton>
+
+            <IconButton 
+              component="a" 
+              href="https://linkedin.com/in/karl-fernandes" 
+              target="_blank" 
+              aria-label="LinkedIn"
+              sx={{ color: "#BDBDBD" }}
+            >
+              <LinkedInIcon fontSize="large" />
+            </IconButton>
+
+            <IconButton 
+              component="a" 
+              href="https://instagram.com/karl_fernandes_/" 
+              target="_blank" 
+              aria-label="Instagram"
+              sx={{ color: "#BDBDBD" }}
+            >
+              <InstagramIcon fontSize="large" />
+            </IconButton>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
+    <Typography textAlign= 'center' sx={{color: '#BDBDBD', mt: '30px', mb:'50px'}}>© 2024 CleverCards AI. Learning Smarter, Powered by AI</Typography>
+      </AppBar>
     </div>
   );
 }
