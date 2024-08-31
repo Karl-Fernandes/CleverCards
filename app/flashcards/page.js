@@ -7,12 +7,15 @@ import { useRouter } from 'next/navigation'
 import { Card, Container, Grid, CardActionArea, CardContent, Typography, Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@mui/material'
 
 export default function Flashcard() {
-  const { isLoaded, isSignedIn, user } = useUser()
+  const { user } = useUser()
+  const [loading, setLoading] = useState(false);
   const [flashcards, setFlashcards] = useState([])
   const [editDialogOpen, setEditDialogOpen] = useState(false)
   const [name, setName] = useState('')
   const [currentFlashcard, setCurrentFlashcard] = useState(null)
   const router = useRouter()
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
 
   useEffect(() => {
     async function getFlashcards() {
@@ -27,29 +30,44 @@ export default function Flashcard() {
       }
     }
     getFlashcards()
+
+    
   }, [user])
 
   const handleCardClick = (id) => {
     router.push(`/flashcard?id=${id}`)
   }
 
+  const handleDeleteSubmit = (set) => {
+    setCurrentSet(set);
+    setDeleteDialogOpen(true);
+  };
+
   const handleDeleteClick = async (flashcardName) => {
     if (window.confirm('Are you sure you want to delete this flashcard?')) {
       try {
         const userDocRef = doc(collection(db, 'users'), user.id)
+        setLoading(true);
         const docSnap = await getDoc(userDocRef)
+
+
         
         if (docSnap.exists()) {
           const collections = docSnap.data().flashcards || []
           const updatedCollections = collections.filter((fc) => fc.name !== flashcardName)
           await setDoc(userDocRef, { flashcards: updatedCollections }, { merge: true })
           setFlashcards(updatedCollections)
+
+          if (updatedCollections.length === 0) {
+            router.push('/generate')
+          }
         }
       } catch (error) {
         console.error('Error deleting flashcard:', error)
         alert('Failed to delete flashcard.')
-      }
+      } 
     }
+
   }
 
   const handleEditClick = (flashcard) => {
