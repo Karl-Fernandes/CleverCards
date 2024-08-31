@@ -35,7 +35,7 @@ export default function Flashcard() {
   }, [user])
 
   const handleCardClick = (id) => {
-    router.push(`/flashcard?id=${id}`)
+      router.push(`/flashcard?id=${id}`);
   }
 
   const handleDeleteSubmit = (set) => {
@@ -70,6 +70,7 @@ export default function Flashcard() {
 
   }
 
+ 
   const handleEditClick = (flashcard) => {
     setCurrentFlashcard(flashcard)
     setName(flashcard.name)
@@ -105,7 +106,8 @@ export default function Flashcard() {
   return (
     <Container maxWidth="md">
       <Grid container spacing={3} sx={{ mt: 4 }}>
-        {flashcards.map((flashcard, index) => (
+      {flashcards.length > 0 ? (
+        flashcards.map((flashcard, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Card
               sx={{
@@ -113,7 +115,13 @@ export default function Flashcard() {
                 display: 'flex',
                 flexDirection: 'column',
                 backgroundColor: '#606060',
-                boxShadow: 3,
+                boxShadow: '0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.2)', // Enhanced 3D shadow
+                borderRadius: '12px', // Smooth rounded corners
+                transition: 'transform 0.3s, box-shadow 0.3s', // Smooth hover effect
+                '&:hover': {
+                  transform: 'translateY(-5px)', // Slight lift on hover
+                  boxShadow: '0 20px 30px rgba(0,0,0,0.5), 0 8px 8px rgba(0,0,0,0.3)', // Stronger shadow on hover
+                },
               }}
             >
               <CardActionArea
@@ -130,33 +138,63 @@ export default function Flashcard() {
                     justifyContent: 'flex-start',
                     height: '100%',
                     padding: '16px',
+                    textAlign: 'center', // Center the text for better aesthetics
+
                   }}
                 >
-                  <Typography variant="h5" component="div" sx={{ mt: 3, color: '#ffffff' }}>
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{ mt: 3, color: '#ffffff', textTransform: 'capitalize', textShadow: '2px 2px 4px rgba(0,0,0,0.6)'}}
+
+                  >
                     {flashcard.name}
                   </Typography>
                 </CardContent>
               </CardActionArea>
+
               <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
                 <Button
-                  variant="outlined"
+                  variant="contained" // Change from "outlined" to "contained"
                   color="primary"
                   onClick={() => handleEditClick(flashcard)}
+                  sx={{
+                    boxShadow: 3, // Add box shadow
+                    transition: 'all 0.5s ease',
+                    '&:hover': {
+                      transform: 'scale(1.05)', // Slightly increase the size
+                    },
+                  }}
                 >
                   Edit
                 </Button>
+
                 <Button
-                  variant="outlined"
+                  variant="contained" // Change from "outlined" to "contained"
                   color="secondary"
                   onClick={() => handleDeleteClick(flashcard.name)}
+                  sx={{
+                    boxShadow: 3, // Add box shadow
+                    transition: 'all 0.5s ease',
+                    '&:hover': {
+                      transform: 'scale(1.05)', // Slightly increase the size
+                    },
+                  }}
                 >
                   Delete
                 </Button>
               </Box>
             </Card>
           </Grid>
-        ))}
+        ))
+        ) : (
+          
+          <Typography variant="h4" sx={{mt: 35, textAlign: 'center', color: '#606060', width: '100%' }}>
+            No flashcards available. Please create one!
+          </Typography>
+        )}
       </Grid>
+
 
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
   <DialogTitle>Edit Flashcard Set</DialogTitle>
@@ -177,10 +215,9 @@ export default function Flashcard() {
   <DialogActions>
     <Button onClick={() => setEditDialogOpen(false)}>Cancel</Button>
     <Button
-      type="button" // Ensure this button does not trigger form submission
+      type="button" 
       onClick={handleEditSave}
       color="primary"
-      autoFocus // Optional: Makes sure this button is focused when the dialog opens
     >
       Save
     </Button>
