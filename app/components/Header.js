@@ -1,7 +1,40 @@
-import { AppBar, Toolbar, Button, Link, Box } from "@mui/material";
+"use client";
+
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Link,
+  Box,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import LoginIcon from '@mui/icons-material/Login';
+import CloseIcon from "@mui/icons-material/Close";
+import DescriptionIcon from "@mui/icons-material/Description";
+import UploadIcon from '@mui/icons-material/Upload';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import HomeIcon from '@mui/icons-material/Home';
 import { SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
+import { useState } from "react";
 
 const Header = () => {
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (openState) => (event) => {
+    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+      return;
+    }
+    setOpen(openState);
+  };
+
   return (
     <AppBar
       position="static"
@@ -10,57 +43,198 @@ const Header = () => {
         color: "#000000",
       }}
     >
-      <Toolbar sx={{ justifyContent: "center", color: "#000000" }}>
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between", 
+          alignItems: "center",
+          color: "#000000",
+        }}
+      >
+
+        
+        {/* Hamburger Menu Icon */}
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={toggleDrawer(true)}
+          sx={{
+            display: { xs: "block", sm: "none" }, 
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+
+        {/* CleverCards Logo/Title */}
         <Link
           href="/"
           variant="h6"
-          sx={{ flexGrow: 1, color: "#000000", textDecoration: "none" }}
+          sx={{
+            flexGrow: {
+              xs: 1,  
+              sm: 1,
+            },
+            color: "#000000",
+            textDecoration: "none",
+            textAlign: { xs: "center", sm: "left" }, 
+          }}
         >
           CleverCards
         </Link>
 
-        <Box>
-          <SignedOut>
-            <Button
-              variant="contained"
-              sx={{
-                marginRight: "16px",
-                borderRadius: "50px",
-                padding: "10px 30px",
-                backgroundColor: "#000000",
-              }}
-            >
-              <Link
-                sx={{ color: "#ffffff", textDecoration: "none" }}
-                href="/sign-in"
+        {/* Right-side Elements */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <SignedOut>
+              <Button
+                variant="contained"
+                sx={{
+                  marginRight: "16px",
+                  borderRadius: "50px",
+                  padding: "10px 30px",
+                  backgroundColor: "#000000",
+                }}
               >
-                Login
-              </Link>
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                marginRight: "16px",
-                borderRadius: "50px",
-                padding: "10px 30px",
-                backgroundColor: "#000000",
-              }}
-            >
-              <Link
-                sx={{ color: "#ffffff", textDecoration: "none" }}
-                href="/sign-up"
+                <Link
+                  sx={{ color: "#ffffff", textDecoration: "none" }}
+                  href="/sign-in"
+                >
+                  Login
+                </Link>
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  marginRight: "16px",
+                  borderRadius: "50px",
+                  padding: "10px 30px",
+                  backgroundColor: "#000000",
+                }}
               >
-                Sign Up
-              </Link>
-            </Button>
-          </SignedOut>
+                <Link
+                  sx={{ color: "#ffffff", textDecoration: "none" }}
+                  href="/sign-up"
+                >
+                  Sign Up
+                </Link>
+              </Button>
+            </SignedOut>
+          </Box>
           <SignedIn>
-            <Box sx={{ paddingRight: "30px", transform: "scale(1.5)" }}>
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <Button
+                component={Link}
+                href="/"
+                sx={{ color: "#000000", textDecoration: "none",  }}
+              >
+                Home
+              </Button>
+              <Button
+                component={Link}
+                href="/generate"
+                sx={{ color: "#000000", textDecoration: "none" }}
+              >
+                Generate
+              </Button>
+              <Button
+                component={Link}
+                href="/flashcards"
+                sx={{ color: "#000000", textDecoration: "none", mr: 2.5 }}
+              >
+                Collection
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingRight: { xs: "10px", sm: "30px" },
+                transform: "scale(1.5)"
+              }}
+            >
               <UserButton />
             </Box>
           </SignedIn>
         </Box>
       </Toolbar>
+
+      {/* Drawer for Mobile View */}
+      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+        <Box
+          sx={{
+            p: 2,
+            width: 250,
+            backgroundColor: "#dbc8ff",
+            height: "100%",
+          }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          {/* Close Icon */}
+          <IconButton onClick={toggleDrawer(false)} sx={{ mb: 2 }}>
+            <CloseIcon />
+          </IconButton>
+
+          <Divider sx={{ mb: 2 }} />
+
+          {/* Drawer List */}
+          <List>
+            <SignedOut>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/sign-in">
+                  <ListItemIcon>
+                    <LoginIcon sx={{ color: "primary.main" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Login" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/sign-up">
+                  <ListItemIcon>
+                    <DescriptionIcon sx={{ color: "primary.main" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Sign Up" />
+                </ListItemButton>
+              </ListItem>
+            </SignedOut>
+            <SignedIn>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/">
+                  <ListItemIcon>
+                    <HomeIcon sx={{ color: "primary.main" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/generate">
+                  <ListItemIcon>
+                    <UploadIcon sx={{ color: "primary.main" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Generate" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/flashcards">
+                  <ListItemIcon>
+                    <BookmarkAddedIcon sx={{ color: "primary.main" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Collection" />
+                </ListItemButton>
+              </ListItem>
+            </SignedIn>
+          </List>
+        </Box>
+      </Drawer>
     </AppBar>
   );
 };
