@@ -72,14 +72,14 @@ const ResultPage = () => {
                   </Box>
                 </>
               ) : (
-                <>
-                  <Typography variant="h4">Payment failed</Typography>
+                <Box sx={{color:'#ffffff', mt: 35}}>
+                  <Typography variant="h4" >Payment failed</Typography>
                   <Box sx={{mt: 2}}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" >
                       Your payment was not successful. Please try again.
                     </Typography>
                   </Box>
-                </>
+                </Box>
               )}
             </Container>
           )
