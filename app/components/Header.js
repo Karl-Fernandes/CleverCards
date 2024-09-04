@@ -46,13 +46,11 @@ const Header = () => {
       <Toolbar
         sx={{
           display: "flex",
-          justifyContent: "space-between", 
+          justifyContent: "space-between",
           alignItems: "center",
           color: "#000000",
         }}
       >
-
-        
         {/* Hamburger Menu Icon */}
         <IconButton
           edge="start"
@@ -60,7 +58,7 @@ const Header = () => {
           aria-label="open drawer"
           onClick={toggleDrawer(true)}
           sx={{
-            display: { xs: "block", sm: "none" }, 
+            display: { xs: "block", sm: "none" }, // Show only on small screens
           }}
         >
           <MenuIcon />
@@ -72,12 +70,12 @@ const Header = () => {
           variant="h6"
           sx={{
             flexGrow: {
-              xs: 1,  
+              xs: 1,
               sm: 1,
             },
             color: "#000000",
             textDecoration: "none",
-            textAlign: { xs: "center", sm: "left" }, 
+            textAlign: { xs: "center", sm: "left" },
           }}
         >
           CleverCards
@@ -129,10 +127,10 @@ const Header = () => {
           </Box>
           <SignedIn>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            <Button
+              <Button
                 component={Link}
                 href="/"
-                sx={{ color: "#000000", textDecoration: "none",  }}
+                sx={{ color: "#000000", textDecoration: "none" }}
               >
                 Home
               </Button>
@@ -151,13 +149,25 @@ const Header = () => {
                 Collection
               </Button>
             </Box>
+
+            {/* UserButton on small screens */}
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "flex-end",
-                paddingRight: { xs: "10px", sm: "30px" },
-                transform: "scale(1.5)"
+                justifyContent: {
+                  xs: "flex-start", // Align to the left on extra-small screens
+                  sm: "flex-end", // Align to the right on small screens and up
+                },
+                paddingLeft: {
+                  xs: "10px", // Adjust left padding for small screens
+                  sm: "0px",
+                },
+                textAlign: {
+                  xs: "center",
+                  sm: "left",
+                },
+                transform: "scale(1.5)",
               }}
             >
               <UserButton />
@@ -167,7 +177,7 @@ const Header = () => {
       </Toolbar>
 
       {/* Drawer for Mobile View */}
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+      <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
         <Box
           sx={{
             p: 2,
